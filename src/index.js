@@ -19,49 +19,25 @@ module.exports = function check(str, bracketsConfig) {
     
     if (current === '(' || current === '[' || current === '{' || current === '1' || current === '3' || current === '5') {
       stack.push(current);
-
-    } else if (current === ')') {
+    } else if (current === ')' || current === ']' || current === "}" || current === '2' || current === '4' || current === "6"){
+      
       if (stack.length === 0){stack.push(current);}
-      else if (stack.length !== 0 && stack[stack.length-1] === '(') {stack.pop()};
+      else {
+        const lastBracket = stack.pop();
+      
+        if (bracketsConfig[lastBracket] !== current) {
+      
+        return false;}
+      }
     }
-    else if (current === ']') {
-      if (stack.length === 0){stack.push(current);}
-      else if (stack.length !== 0 && stack[stack.length-1] === '[') {stack.pop()};
+    else if (current === '|' || current === '7' || current === '8'){
+      if (stack[stack.length-1] !== current){
+        stack.push(current);
+      } else{
+        stack.pop();
+      }
     }
-    else if (current === '}') {
-      if (stack.length === 0){stack.push(current);}
-      else if (stack.length !== 0 && stack[stack.length-1] === '{') {stack.pop()};
-    }
-    else if (current === '2') {
-      if (stack.length === 0){stack.push(current);}
-      else if (stack.length !== 0 && stack[stack.length-1] === '1') {stack.pop()};
-    }
-    else if (current === '4') {
-      if (stack.length === 0){stack.push(current);}
-      else if (stack.length !== 0 && stack[stack.length-1] === '3') {stack.pop()};
-    }
-    else if (current === '6') {
-      if (stack.length === 0){stack.push(current);}
-      else if (stack.length !== 0 && stack[stack.length-1] === '5') {stack.pop()};
-    }
-    else if (current === '|' && stack[stack.length-1] !== '|') {
-      stack.push(current);
-    }
-    else if (current === '|' && stack[stack.length-1] === '|') {
-      stack.pop();
-    }
-    else if (current === '7' && stack[stack.length-1] !== '7') {
-      stack.push(current);
-    }
-    else if (current === '7' && stack[stack.length-1] === '7') {
-      stack.pop();
-    }
-    else if (current === '8' && stack[stack.length-1] !== '8') {
-      stack.push(current);
-    }
-    else if (current === '8' && stack[stack.length-1] === '8') {
-      stack.pop();
-    }
+    
   }
   return stack.length === 0;
 };
